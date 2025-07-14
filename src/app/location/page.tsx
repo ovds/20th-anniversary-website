@@ -28,7 +28,7 @@ const CampusPage: React.FC = () => {
   ];
 
   return (
-    <div className={'flex'}>
+    <div className={'flex pt-16'}>
       <CampusReimagined areas={campusAreas} />
     </div>
   );

@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function HomecomingPage() {
     return (
-        <main className="min-h-screen p-8">
+        <main className="min-h-screen pt-20 p-8">
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-4xl font-bold mb-6">Giving Back and Homecoming Day</h1>
 

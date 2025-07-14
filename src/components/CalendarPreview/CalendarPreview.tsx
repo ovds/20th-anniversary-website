@@ -6,12 +6,8 @@ import { CalendarIcon } from '@heroicons/react/24/outline';
 import { timelineEvents } from '@/types/timeline';
 
 export default function CalendarPreview() {
-    // Find the next event based on current date
-    const currentDate = new Date();
-    const nextEvent = timelineEvents.find(event => {
-        const eventDate = new Date(`2024-${event.date}`);
-        return eventDate > currentDate;
-    }) || timelineEvents[0];
+    // Just show the first featured event since we don't have dates anymore
+    const featuredEvent = timelineEvents.find(event => event.featured) || timelineEvents[0];
 
     return (
         <Link href="/calendar">
@@ -19,13 +15,15 @@ export default function CalendarPreview() {
                 <div className="mb-2 flex items-center gap-2">
                     <CalendarIcon className="h-5 w-5 text-gray-600" />
                     <div className="flex gap-2">
-                        <span className="bg-gray-100 text-sm rounded-full px-3 py-1">SIMC 2.0</span>
-                        <span className="bg-gray-100 text-sm rounded-full px-3 py-1">National Day</span>
-                        <span className="text-gray-400">9 Aug</span>
+                        {featuredEvent.highlights.slice(0, 2).map((highlight, i) => (
+                            <span key={i} className="bg-gray-100 text-sm rounded-full px-3 py-1">
+                                {highlight}
+                            </span>
+                        ))}
                     </div>
                 </div>
-                <div className="text-gray-400">Next Event</div>
-                <div className="text-xl font-bold">{nextEvent.event}</div>
+                <div className="text-gray-400">Featured Event</div>
+                <div className="text-xl font-bold">{featuredEvent.title}</div>
             </div>
         </Link>
     );
