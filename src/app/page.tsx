@@ -17,8 +17,16 @@ export default function HomePage() {
             return [];
         }
         try {
+            console.log('Original events:', timelineEvents.map(e => e?.title || 'INVALID'));
             const shuffled = shuffleArray([...timelineEvents], 'nush-20th-anniversary');
-            return shuffled.filter(event => event && typeof event === 'object' && event.title);
+            console.log('After shuffle:', shuffled.map(e => e?.title || 'INVALID'));
+            const filtered = shuffled.filter(event => {
+                const isValid = event && typeof event === 'object' && event.title;
+                if (!isValid) console.log('Filtered out:', event);
+                return isValid;
+            });
+            console.log('Final filtered events:', filtered.map(e => e.title));
+            return filtered;
         } catch (error) {
             console.error('Error shuffling events:', error);
             return timelineEvents;
@@ -60,19 +68,17 @@ export default function HomePage() {
                     </motion.div>
 
                     <div className="relative max-w-7xl mx-auto">
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                             {shuffledEvents.filter(Boolean).map((event, index) => {
                                 if (!event || !event.title) return null;
                                 
-                                const randomOffset = (index * 37) % 3;
-                                const animationDelay = (index * 0.2) % 1.2;
-                                const isFeatured = event.featured;
+                                const animationDelay = (index * 0.15) % 1.0;
                                 const imageSrc = imageMapping[event.imageKey as keyof typeof imageMapping];
                                 
                                 return (
                                     <motion.div
                                         key={`${event.title}-${index}`}
-                                        initial={{ opacity: 0, y: 60 + randomOffset * 15, scale: 0.9 }}
+                                        initial={{ opacity: 0, y: 40, scale: 0.95 }}
                                         whileInView={{ opacity: 1, y: 0, scale: 1 }}
                                         viewport={{ once: true, margin: "0px 0px -15% 0px" }}
                                         transition={{
@@ -81,17 +87,13 @@ export default function HomePage() {
                                             damping: 20,
                                             delay: animationDelay
                                         }}
-                                        className={`relative group cursor-pointer ${
-                                            isFeatured ? 'md:col-span-2 xl:col-span-1' : ''
-                                        }`}
-                                        style={{ 
-                                            marginTop: `${randomOffset * 1.5}rem` 
+                                        className="relative group cursor-pointer"
+                                        onClick={() => {
+                                            console.log('Clicked event:', event.title, event);
+                                            setSelectedEvent(event);
                                         }}
-                                        onClick={() => setSelectedEvent(event)}
                                     >
-                                        <Card className={`overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-2xl ${
-                                            isFeatured ? 'min-h-[400px]' : 'min-h-[320px]'
-                                        }`}>
+                                        <Card className="overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-3xl h-[400px] hover:scale-[1.02] transform">
                                             {/* Background Image */}
                                             <div 
                                                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
@@ -99,26 +101,19 @@ export default function HomePage() {
                                             />
                                             
                                             {/* Gradient Overlay */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/20" />
+                                            
+                                            {/* Additional dark overlay at bottom */}
+                                            <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/80 to-transparent" />
                                             
                                             {/* Content */}
-                                            <div className="relative h-full p-6 flex flex-col justify-end text-white">
-                                                {isFeatured && (
-                                                    <div className="absolute top-4 right-4">
-                                                        <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold">
-                                                            ✨ Featured
-                                                        </span>
-                                                    </div>
-                                                )}
-                                                
+                                            <div className="relative h-full px-6 pb-8 pt-6 flex flex-col justify-end text-white drop-shadow-lg">
                                                 <div className="space-y-3">
-                                                    <h3 className={`font-bold leading-tight ${
-                                                        isFeatured ? 'text-2xl lg:text-3xl' : 'text-xl lg:text-2xl'
-                                                    }`}>
+                                                    <h3 className="font-bold leading-tight text-xl lg:text-2xl">
                                                         {event.title}
                                                     </h3>
                                                     
-                                                    <p className="text-white/90 leading-relaxed">
+                                                    <p className="text-white leading-relaxed">
                                                         {event.description}
                                                     </p>
                                                     
@@ -127,7 +122,7 @@ export default function HomePage() {
                                                         {event.highlights.slice(0, 3).map((highlight, i) => (
                                                             <span 
                                                                 key={i}
-                                                                className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-medium"
+                                                                className="bg-white/30 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-medium"
                                                             >
                                                                 {highlight}
                                                             </span>
@@ -135,7 +130,7 @@ export default function HomePage() {
                                                     </div>
                                                     
                                                     {/* Read More Indicator */}
-                                                    <div className="flex items-center gap-2 text-sm font-medium opacity-80 group-hover:opacity-100 transition-opacity">
+                                                    <div className="flex items-center gap-2 text-sm font-medium opacity-90 group-hover:opacity-100 transition-opacity">
                                                         <span>Read full story</span>
                                                         <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -155,6 +150,7 @@ export default function HomePage() {
             {/* Full Story Modal */}
             <AnimatePresence>
                 {selectedEvent && (
+                    (() => console.log('Rendering modal for:', selectedEvent.title))(),
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

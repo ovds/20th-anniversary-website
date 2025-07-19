@@ -26,11 +26,6 @@ export default function CalendarPage() {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-start">
                                     <h3 className="text-2xl font-semibold text-gray-900">{event.title}</h3>
-                                    {event.featured && (
-                                        <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                                            ✨ Featured
-                                        </span>
-                                    )}
                                 </div>
                                 <p className="text-lg text-gray-700">{event.description}</p>
                                 
