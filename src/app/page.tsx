@@ -18,7 +18,7 @@ export default function HomePage() {
         }
         try {
             console.log('Original events:', timelineEvents.map(e => e?.title || 'INVALID'));
-            const shuffled = shuffleArray([...timelineEvents], 'nush-20th-anniversary');
+            const shuffled = shuffleArray([...timelineEvents]);
             console.log('After shuffle:', shuffled.map(e => e?.title || 'INVALID'));
             const filtered = shuffled.filter(event => {
                 const isValid = event && typeof event === 'object' && event.title;
