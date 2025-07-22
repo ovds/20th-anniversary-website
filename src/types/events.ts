@@ -1,4 +1,4 @@
-export interface TimelineEvent {
+export interface Event {
     title: string;
     description: string;
     fullStory: string;
@@ -6,7 +6,7 @@ export interface TimelineEvent {
     highlights: string[];
 }
 
-export const timelineEvents: TimelineEvent[] = [
+export const events: Event[] = [
     {
         title: "Mascot Launch",
         description: "Meet Novus, our white-bellied sea eagle mascot designed by students",
@@ -42,4 +42,4 @@ export const timelineEvents: TimelineEvent[] = [
         imageKey: "satellite",
         highlights: ["Student-built nanosatellite", "6-year collaboration", "Singapore's first school satellite", "Experiment, explore and excel!"]
     }
-]; 
+];

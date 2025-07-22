@@ -19,7 +19,8 @@ export function useScrollBackground() {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       
-      const scrollPercentage = scrollPosition / (documentHeight - windowHeight);
+      // Slow down image transitions to 60% of scroll speed
+      const scrollPercentage = (scrollPosition / (documentHeight - windowHeight)) * 0.6;
       
       const imageIndex = Math.min(
         Math.floor(scrollPercentage * backgroundImages.length),
