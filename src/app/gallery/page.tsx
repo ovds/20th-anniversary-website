@@ -35,7 +35,7 @@ export default function GalleryPage() {
     return (
         <div className="relative min-h-screen">
             {/* Header Section */}
-            <div className="relative h-64 flex items-center justify-center overflow-hidden">
+            <div className="relative h-64 flex items-center justify-center overflow-hidden pt-16 md:pt-0">
                 {/* Background Image */}
                 <div className="absolute inset-0">
                     <Image
