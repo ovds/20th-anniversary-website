@@ -30,8 +30,8 @@ export default function HomePage() {
                     {/* Background Image */}
                     <div className="absolute inset-0">
                         <Image
-                            src="/showcase/Speech Day/KLV_3537.JPG"
-                            alt="NUS High School Speech Day"
+                            src="/imgs/nush-bg.png"
+                            alt="NUS High School"
                             fill
                             className="object-cover object-top blur-sm scale-110"
                             priority
